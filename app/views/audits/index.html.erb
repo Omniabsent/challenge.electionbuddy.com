@@ -1,6 +1,18 @@
 <h1>AUDITS</h1>
 
-Change on <election_title> by <user> at <time>:
-<field> changed from <old_value> to <new_value>
 
-
+<table>
+  <tbody>
+    <% @audits.each do |audit| %>
+      <tr>
+        <td>
+            <li>
+            <p><b><%= audit.new_data["name"] %></b>: <%= audit.affected_table %> by user <%= audit.new_data["user"]["email"] %> at <%=audit.created_at%>.
+            <!--New values: <new_values> -->
+                
+            </li>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

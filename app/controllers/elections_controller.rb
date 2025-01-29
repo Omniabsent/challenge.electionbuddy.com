@@ -31,6 +31,7 @@ class ElectionsController < ApplicationController
       if @election.save
         format.html { redirect_to @election, notice: 'Election was successfully created.' }
         format.json { render :show, status: :created, location: @election }
+        @audit = Audit.create(affected_table: "Election created", new_data: election_params.merge(user: current_user))
       else
         format.html { render :new }
         format.json { render json: @election.errors, status: :unprocessable_entity }
@@ -45,6 +46,7 @@ class ElectionsController < ApplicationController
       if @election.update(election_params)
         format.html { redirect_to @election, notice: 'Election was successfully updated.' }
         format.json { render :show, status: :ok, location: @election }
+        @audit = Audit.create(affected_table: "Election updated", new_data: election_params.merge(user: current_user))
       else
         format.html { render :edit }
         format.json { render json: @election.errors, status: :unprocessable_entity }
@@ -55,6 +57,8 @@ class ElectionsController < ApplicationController
   # DELETE /elections/1
   # DELETE /elections/1.json
   def destroy
+    election_params = Election.find(@election.id).attributes
+    @audit = Audit.create(affected_table: "Election deleted", new_data: election_params.merge(user: current_user))
     @election.destroy
     respond_to do |format|
       format.html { redirect_to elections_url, notice: 'Election was successfully destroyed.' }
