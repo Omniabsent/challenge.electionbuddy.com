@@ -2,8 +2,8 @@
 
 one:
   affected_table: MyString
-  new_data: 
+  latest_known_data: 
 
 two:
   affected_table: MyString
-  new_data: 
+  latest_known_data: 
