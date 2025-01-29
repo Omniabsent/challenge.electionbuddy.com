@@ -12,5 +12,5 @@ end
 private
 
 def audit_params
-  params.require(:audit).permit(:affected_table, :new_data)
+  params.require(:audit).permit(:affected_table, :opperation_type, :external_id, :latest_known_data, :changed_by)
 end

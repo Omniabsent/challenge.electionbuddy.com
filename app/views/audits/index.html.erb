@@ -7,9 +7,35 @@
       <tr>
         <td>
             <li>
-            <p><b><%= audit.new_data["name"] %></b>: <%= audit.affected_table %> by user <%= audit.new_data["user"]["email"] %> at <%=audit.created_at%>.
-            <!--New values: <new_values> -->
-                
+            <p><h3><%= audit.affected_table %> <%= audit.opperation_type %> by user <%= audit.changed_by %> at <%=audit.created_at%></h3>
+            <%if audit.opperation_type == "created" %>
+                <p><h4>Values upon creation:</h4></p>
+                <p>Title: <%=audit.latest_known_data["name"]%></p>
+                <p>Starts at: <%=audit.latest_known_data["start_at"]%>
+                <p>Ends at: <%=audit.latest_known_data["end_at"]%>
+                <p>Visibility: <%=audit.latest_known_data["settings"]["visibility"]%></p>
+
+            <%elsif audit.opperation_type == "updated" %>
+                <p><h4>Values before change:</h4></p>
+                <% previous = Audit.where(external_id: audit.external_id, affected_table: audit.affected_table).where("id < ?", audit.id).last %>
+                <p>Title: <%=previous.latest_known_data["name"]%></p>
+                <p>Starts at: <%=previous.latest_known_data["start_at"]%>
+                <p>Ends at: <%=previous.latest_known_data["end_at"]%>
+                <p>Visibility: <%=previous.latest_known_data["settings"]["visibility"]%></p>
+
+                <p><h4>Values after change:</h4></p>
+                <p>Title: <%=audit.latest_known_data["name"]%></p>
+                <p>Starts at: <%=audit.latest_known_data["start_at"]%>
+                <p>Ends at: <%=audit.latest_known_data["end_at"]%>
+                <p>Visibility: <%=audit.latest_known_data["settings"]["visibility"]%></p>
+
+            <%elsif audit.opperation_type == "deleted" %>
+                <p><h4>Values upon deletion:</h4></p>
+                <p>Title: <%=audit.latest_known_data["name"]%></p>
+                <p>Starts at: <%=audit.latest_known_data["start_at"]%>
+                <p>Ends at: <%=audit.latest_known_data["end_at"]%>
+                <p>Visibility: <%=audit.latest_known_data["settings"]["visibility"]%></p>
+            <%end%>
             </li>
         </td>
       </tr>

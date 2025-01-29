@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_01_28_232005) do
+ActiveRecord::Schema.define(version: 2025_01_29_030459) do
 
   create_table "answers", force: :cascade do |t|
     t.string "name"
@@ -22,9 +22,12 @@ ActiveRecord::Schema.define(version: 2025_01_28_232005) do
 
   create_table "audits", force: :cascade do |t|
     t.string "affected_table"
-    t.json "new_data"
+    t.json "latest_known_data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "external_id"
+    t.string "changed_by"
+    t.string "opperation_type"
   end
 
   create_table "elections", force: :cascade do |t|
