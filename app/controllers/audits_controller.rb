@@ -1,6 +1,4 @@
-class AuditsController < ApplicationController
-  before_action :authenticate_user!
-  
+class AuditsController < ApplicationController  
   def index
     @audits = Audit.search(params)
   end
@@ -14,5 +12,5 @@ end
 private
 
 def audit_params
-  params.require(:audit).permit(:affected_table, :opperation_type, :external_id, :latest_known_data, :changed_by)
+  params.require(:audit).permit(:affected_table, :operation_type, :election_id, :latest_known_data, :changed_by)
 end

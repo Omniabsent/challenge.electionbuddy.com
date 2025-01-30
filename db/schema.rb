@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_01_29_030459) do
+ActiveRecord::Schema.define(version: 2025_01_30_021254) do
 
   create_table "answers", force: :cascade do |t|
     t.string "name"
@@ -25,9 +25,9 @@ ActiveRecord::Schema.define(version: 2025_01_29_030459) do
     t.json "latest_known_data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "external_id"
+    t.integer "election_id"
     t.string "changed_by"
-    t.string "opperation_type"
+    t.string "operation_type"
   end
 
   create_table "elections", force: :cascade do |t|

@@ -32,7 +32,7 @@ class AnswersController < ApplicationController
       if @answer.save
         format.html { redirect_to @answer, notice: 'Answer was successfully created.' }
         format.json { render :show, status: :created, location: @answer }
-        @audit = Audit.create(affected_table: "Answer", latest_known_data: @answer, external_id: @answer.question.election_id, changed_by: current_user.email, opperation_type: "created")
+        @audit = Audit.create(affected_table: "Answer", latest_known_data: @answer, election_id: @answer.question.election_id, changed_by: current_user.email, operation_type: "created")
       else
         format.html { render :new }
         format.json { render json: @answer.errors, status: :unprocessable_entity }
@@ -47,7 +47,7 @@ class AnswersController < ApplicationController
       if @answer.update(answer_params)
         format.html { redirect_to @answer, notice: 'Answer was successfully updated.' }
         format.json { render :show, status: :ok, location: @answer }
-        @audit = Audit.create(affected_table: "Answer", latest_known_data: @answer, external_id: @answer.question.election_id, changed_by: current_user.email, opperation_type: "updated")
+        @audit = Audit.create(affected_table: "Answer", latest_known_data: @answer, election_id: @answer.question.election_id, changed_by: current_user.email, operation_type: "updated")
       else
         format.html { render :edit }
         format.json { render json: @answer.errors, status: :unprocessable_entity }
@@ -59,7 +59,7 @@ class AnswersController < ApplicationController
   # DELETE /answers/1.json
   def destroy
     answer_params = Answer.find(@answer.id).attributes
-    @audit = Audit.create(affected_table: "Answer", latest_known_data: answer_params, external_id: @answer.question.election_id, changed_by: current_user.email, opperation_type: "deleted")
+    @audit = Audit.create(affected_table: "Answer", latest_known_data: answer_params, election_id: @answer.question.election_id, changed_by: current_user.email, operation_type: "deleted")
  
     question = @answer.question
     @answer.destroy

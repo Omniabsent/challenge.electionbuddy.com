@@ -32,7 +32,7 @@ class QuestionsController < ApplicationController
       if @question.save
         format.html { redirect_to @question, notice: 'Question was successfully created.' }
         format.json { render :show, status: :created, location: @question }
-        @audit = Audit.create(affected_table: "Question", latest_known_data: @question, external_id: @question.election_id, changed_by: current_user.email, opperation_type: "created")
+        @audit = Audit.create(affected_table: "Question", latest_known_data: @question, election_id: @question.election_id, changed_by: current_user.email, operation_type: "created")
       else
         format.html { render :new }
         format.json { render json: @question.errors, status: :unprocessable_entity }
@@ -47,7 +47,7 @@ class QuestionsController < ApplicationController
       if @question.update(question_params)
         format.html { redirect_to @question, notice: 'Question was successfully updated.' }
         format.json { render :show, status: :ok, location: @question }
-        @audit = Audit.create(affected_table: "Question", latest_known_data: @question, external_id: @question.election_id, changed_by: current_user.email, opperation_type: "updated")
+        @audit = Audit.create(affected_table: "Question", latest_known_data: @question, election_id: @question.election_id, changed_by: current_user.email, operation_type: "updated")
       else
         format.html { render :edit }
         format.json { render json: @question.errors, status: :unprocessable_entity }
@@ -59,7 +59,7 @@ class QuestionsController < ApplicationController
   # DELETE /questions/1.json
   def destroy
     question_params = Question.find(@question.id).attributes
-    @audit = Audit.create(affected_table: "Question", latest_known_data: question_params, external_id: question_params["election_id"], changed_by: current_user.email, opperation_type: "deleted")
+    @audit = Audit.create(affected_table: "Question", latest_known_data: question_params, election_id: question_params["election_id"], changed_by: current_user.email, operation_type: "deleted")
  
     election = @question.election
     @question.destroy

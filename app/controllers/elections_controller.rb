@@ -30,7 +30,7 @@ class ElectionsController < ApplicationController
       if @election.save
         format.html { redirect_to @election, notice: 'Election was successfully created.' }
         format.json { render :show, status: :created, location: @election }
-        @audit = Audit.create(affected_table: "Election", latest_known_data: @election, external_id: @election.id, changed_by: current_user.email, opperation_type: "created")
+        @audit = Audit.create(affected_table: "Election", latest_known_data: @election, election_id: @election.id, changed_by: current_user.email, operation_type: "created")
       else
         format.html { render :new }
         format.json { render json: @election.errors, status: :unprocessable_entity }
@@ -45,7 +45,7 @@ class ElectionsController < ApplicationController
       if @election.update(election_params)
         format.html { redirect_to @election, notice: 'Election was successfully updated.' }
         format.json { render :show, status: :ok, location: @election }
-        @audit = Audit.create(affected_table: "Election", latest_known_data: @election, external_id: @election.id, changed_by: current_user.email, opperation_type: "updated")
+        @audit = Audit.create(affected_table: "Election", latest_known_data: @election, election_id: @election.id, changed_by: current_user.email, operation_type: "updated")
       else
         format.html { render :edit }
         format.json { render json: @election.errors, status: :unprocessable_entity }
@@ -57,7 +57,7 @@ class ElectionsController < ApplicationController
   # DELETE /elections/1.json
   def destroy
     election_params = Election.find(@election.id).attributes
-    @audit = Audit.create(affected_table: "Election", latest_known_data: election_params, external_id: election_params["id"], changed_by: current_user.email, opperation_type: "deleted")
+    @audit = Audit.create(affected_table: "Election", latest_known_data: election_params, election_id: election_params["id"], changed_by: current_user.email, operation_type: "deleted")
     @election.destroy
     respond_to do |format|
       format.html { redirect_to elections_url, notice: 'Election was successfully destroyed.' }

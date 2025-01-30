@@ -3,12 +3,12 @@
 
 <table>
   <tbody>
-    <% @audits.each do |audit| %>
+    <% @audits.reverse_each do |audit| %>
       <tr>
         <td>
             <li>
-            <p><h3><%= audit.affected_table %> <%= audit.opperation_type %> by user <%= audit.changed_by %> at <%=audit.created_at%></h3>
-            <%if audit.opperation_type == "created" %>
+            <p><h3><%= audit.affected_table %> <%= audit.operation_type %> by user <%= audit.changed_by %> at <%=audit.created_at%></h3>
+            <%if audit.operation_type == "created" %>
                 <p><h4>Values upon creation:</h4></p>
                 <p>Name: <%=audit.latest_known_data["name"]%></p>
                 <%if audit.affected_table == "Election" %>
@@ -19,9 +19,9 @@
                   <p>Email: <%=audit.latest_known_data["email"]%>
                 <%end%>
 
-            <%elsif audit.opperation_type == "updated" %>
+            <%elsif audit.operation_type == "updated" %>
                 <p><h4>Values before change:</h4></p>
-                  <% previous = Audit.where(external_id: audit.external_id, affected_table: audit.affected_table).where("id < ?", audit.id).last %>
+                  <% previous = Audit.where(election_id: audit.election_id, affected_table: audit.affected_table).where("id < ?", audit.id).last %>
                   <p>Name: <%=previous.latest_known_data["name"]%></p>
                 <%if audit.affected_table == "Election" %>
                   <p>Starts at: <%=previous.latest_known_data["start_at"]%>
@@ -40,7 +40,7 @@
                   <p>Email: <%=audit.latest_known_data["email"]%>
               <%end%>
               
-            <%elsif audit.opperation_type == "deleted" %>
+            <%elsif audit.operation_type == "deleted" %>
                 <p><h4>Values upon deletion:</h4></p>
                 <p>Name: <%=audit.latest_known_data["name"]%></p>
                 <%if audit.affected_table == "Election" %>
