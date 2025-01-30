@@ -56,8 +56,7 @@ class ElectionsController < ApplicationController
   # DELETE /elections/1
   # DELETE /elections/1.json
   def destroy
-    election_params = Election.find(@election.id).attributes
-    @audit = Audit.create(affected_table: "Election", latest_known_data: election_params, election_id: election_params["id"], changed_by: current_user.email, operation_type: "deleted")
+    @audit = Audit.create(affected_table: "Election", latest_known_data: @election, election_id: @election.id, changed_by: current_user.email, operation_type: "deleted")
     @election.destroy
     respond_to do |format|
       format.html { redirect_to elections_url, notice: 'Election was successfully destroyed.' }

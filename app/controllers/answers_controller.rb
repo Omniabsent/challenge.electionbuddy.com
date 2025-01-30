@@ -58,9 +58,7 @@ class AnswersController < ApplicationController
   # DELETE /answers/1
   # DELETE /answers/1.json
   def destroy
-    answer_params = Answer.find(@answer.id).attributes
-    @audit = Audit.create(affected_table: "Answer", latest_known_data: answer_params, election_id: @answer.question.election_id, changed_by: current_user.email, operation_type: "deleted")
- 
+    @audit = Audit.create(affected_table: "Answer", latest_known_data: @answer, election_id: @answer.question.election_id, changed_by: current_user.email, operation_type: "deleted") 
     question = @answer.question
     @answer.destroy
     respond_to do |format|

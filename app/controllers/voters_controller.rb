@@ -59,7 +59,7 @@ class VotersController < ApplicationController
   # DELETE /voters/1.json
   def destroy
     voter_params = Voter.find(@voter.id).attributes
-    @audit = Audit.create(affected_table: "Voter", latest_known_data: voter_params, election_id: voter_params["election_id"], changed_by: current_user.email, operation_type: "deleted")
+    @audit = Audit.create(affected_table: "Voter", latest_known_data: @voter, election_id: @voter.election_id, changed_by: current_user.email, operation_type: "deleted")
  
     election = @voter.election
     @voter.destroy
