@@ -32,7 +32,7 @@ class VotersController < ApplicationController
       if @voter.save
         format.html { redirect_to @voter, notice: 'Voter was successfully created.' }
         format.json { render :show, status: :created, location: @voter }
-        @audit = Audit.create(affected_table: "Voter", latest_known_data: @voter, external_id: @voter.id, changed_by: current_user.email, opperation_type: "created")
+        @audit = Audit.create(affected_table: "Voter", latest_known_data: @voter, external_id: @voter.election_id, changed_by: current_user.email, opperation_type: "created")
       else
         format.html { render :new }
         format.json { render json: @voter.errors, status: :unprocessable_entity }
@@ -47,7 +47,7 @@ class VotersController < ApplicationController
       if @voter.update(voter_params)
         format.html { redirect_to @voter, notice: 'Voter was successfully updated.' }
         format.json { render :show, status: :ok, location: @voter }
-        @audit = Audit.create(affected_table: "Voter", latest_known_data: @voter, external_id: @voter.id, changed_by: current_user.email, opperation_type: "updated")
+        @audit = Audit.create(affected_table: "Voter", latest_known_data: @voter, external_id: @voter.election_id, changed_by: current_user.email, opperation_type: "updated")
       else
         format.html { render :edit }
         format.json { render json: @voter.errors, status: :unprocessable_entity }
@@ -59,7 +59,7 @@ class VotersController < ApplicationController
   # DELETE /voters/1.json
   def destroy
     voter_params = Voter.find(@voter.id).attributes
-    @audit = Audit.create(affected_table: "Voter", latest_known_data: voter_params, external_id: voter_params["id"], changed_by: current_user.email, opperation_type: "deleted")
+    @audit = Audit.create(affected_table: "Voter", latest_known_data: voter_params, external_id: voter_params["election_id"], changed_by: current_user.email, opperation_type: "deleted")
  
     election = @voter.election
     @voter.destroy

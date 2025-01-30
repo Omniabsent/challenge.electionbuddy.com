@@ -2,7 +2,7 @@ class AuditsController < ApplicationController
   before_action :authenticate_user!
   
   def index
-    @audits = Audit.all
+    @audits = Audit.search(params)
   end
 
   def create

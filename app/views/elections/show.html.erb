@@ -20,6 +20,7 @@
   <%= @election.settings %>
 </p>
 
+<%= link_to 'Audits', "/audits?search=#{@election.id}" %> |
 <%= link_to 'Edit', edit_election_path(@election) %> |
 <%= link_to 'Questions', election_questions_path(@election) %> |
 <%= link_to 'Voters', election_voters_path(@election) %> |
